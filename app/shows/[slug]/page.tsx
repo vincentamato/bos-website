@@ -7,15 +7,15 @@ import EpisodeCard from '../../components/EpisodeCard'
 import ExtraCard from '../../components/ExtraCard'
 import Credits from '../../components/Credits'
 
-interface ShowPageProps {
-  params: {
-    slug: string
-  }
-}
+// Next.js 15 page props type - params needs to be a Promise
+type ShowPageProps = {
+  params: Promise<any>;
+  searchParams?: Promise<any>;
+};
 
 export default async function ShowPage({ params }: ShowPageProps) {
-  // Await the params to ensure it's fully resolved before using its properties
-  const resolvedParams = await Promise.resolve(params);
+  // In Next.js 15, we need to await the params
+  const resolvedParams = await params;
   const show = await getShowBySlug(resolvedParams.slug);
 
   if (!show) {

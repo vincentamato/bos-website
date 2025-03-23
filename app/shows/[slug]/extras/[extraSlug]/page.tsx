@@ -4,16 +4,15 @@ import VideoPlayer from '@/app/components/VideoPlayer'
 import ShareButton from '@/app/components/ShareButton'
 import Link from 'next/link'
 
-interface ExtraPageProps {
-  params: {
-    slug: string
-    extraSlug: string
-  }
-}
+// Next.js 15 page props type - params needs to be a Promise
+type ExtraPageProps = {
+  params: Promise<any>;
+  searchParams?: Promise<any>;
+};
 
 export default async function ExtraPage({ params }: ExtraPageProps) {
-  // Await the params to ensure it's fully resolved before using its properties
-  const resolvedParams = await Promise.resolve(params);
+  // In Next.js 15, we need to await the params
+  const resolvedParams = await params;
   const { slug, extraSlug } = resolvedParams;
   
   const extra = await getExtraBySlug(extraSlug)

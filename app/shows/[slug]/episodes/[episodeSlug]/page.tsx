@@ -9,12 +9,12 @@ interface EpisodePageProps {
     slug: string
     episodeSlug: string
   }
+  searchParams?: { [key: string]: string | string[] | undefined }
 }
 
 export default async function EpisodePage({ params }: EpisodePageProps) {
-  // Await the params to ensure it's fully resolved before using its properties
-  const resolvedParams = await Promise.resolve(params);
-  const { slug, episodeSlug } = resolvedParams;
+  // No need to await Promise.resolve - params is already an object
+  const { slug, episodeSlug } = params;
   
   const episode = await getEpisodeBySlug(episodeSlug)
   

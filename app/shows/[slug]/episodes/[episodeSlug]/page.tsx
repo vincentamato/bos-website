@@ -4,17 +4,16 @@ import VideoPlayer from '@/app/components/VideoPlayer'
 import ShareButton from '@/app/components/ShareButton'
 import Link from 'next/link'
 
-interface EpisodePageProps {
-  params: {
-    slug: string
-    episodeSlug: string
-  }
-  searchParams?: { [key: string]: string | string[] | undefined }
-}
+// Next.js 15 page props type
+type PageProps = {
+  params: Promise<any>;
+  searchParams?: { [key: string]: string | string[] | undefined };
+};
 
-export default async function EpisodePage({ params }: EpisodePageProps) {
-  // No need to await Promise.resolve - params is already an object
-  const { slug, episodeSlug } = params;
+export default async function EpisodePage({ params }: PageProps) {
+  // In Next.js 15, we need to await the params
+  const resolvedParams = await params;
+  const { slug, episodeSlug } = resolvedParams;
   
   const episode = await getEpisodeBySlug(episodeSlug)
   
